@@ -31,7 +31,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
-    "simple-markdown": "git://github.com/k4771kim/simple-markdown"
+    "simple-markdown": "^0.1.1"
   },
   "deprecated": false,
   "description": "Simple & customizable React Native component to render Github-flavoured markdown using minimal native components.",
