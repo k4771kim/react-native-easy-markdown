@@ -1,25 +1,60 @@
 {
+  "_from": "react-native-easy-markdown",
+  "_id": "react-native-easy-markdown@1.2.0",
+  "_inBundle": false,
+  "_integrity": "sha512-anrGpZZrQeSpOM132EAtMB3L1NKBMTmtZbIvXEAINac+HJcYJUCKEoi/dDoFHYHvtpx6gfGrNgD7K3IQ9l0xxw==",
+  "_location": "/react-native-easy-markdown",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-native-easy-markdown",
     "name": "react-native-easy-markdown",
-    "version": "1.2.0",
-    "description": "Simple & customizable React Native component to render Github-flavoured markdown using minimal native components.",
-    "main": "index.js",
-    "repository": "https://github.com/lappalj4/react-native-easy-markdown",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [
-        "react-native",
-        "native",
-        "markdown",
-        "parse",
-        "parser"
-    ],
-    "author": "Juuso Lappalainen",
-    "license": "MIT",
-    "dependencies": {
-        "simple-markdown": "^0.1.1"
-    },
-    "peerDependencies": {
-        "react-native": "*"
-    }
+    "escapedName": "react-native-easy-markdown",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-easy-markdown/-/react-native-easy-markdown-1.2.0.tgz",
+  "_shasum": "e439dbd2ba2b5e4d1b60abb0e8a3458a32b0b46c",
+  "_spec": "react-native-easy-markdown",
+  "_where": "/Users/kimbogyun/Develop/ReactNative/elice-mobile",
+  "author": {
+    "name": "Juuso Lappalainen"
+  },
+  "bugs": {
+    "url": "https://github.com/lappalj4/react-native-easy-markdown/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "simple-markdown": "git://github.com/k4771kim/simple-markdown"
+  },
+  "deprecated": false,
+  "description": "Simple & customizable React Native component to render Github-flavoured markdown using minimal native components.",
+  "homepage": "https://github.com/lappalj4/react-native-easy-markdown#readme",
+  "keywords": [
+    "react-native",
+    "native",
+    "markdown",
+    "parse",
+    "parser"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "react-native-easy-markdown",
+  "peerDependencies": {
+    "react-native": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lappalj4/react-native-easy-markdown.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.2.0"
 }
