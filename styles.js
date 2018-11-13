@@ -15,6 +15,8 @@ const defaultStyles = {
     color: 'blue',
     fontSize: 90
   },
+  fence: {},
+  fenceQuote: {},
   h1: {
     fontSize: 30,
     marginTop: 20,

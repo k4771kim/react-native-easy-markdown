@@ -6,8 +6,11 @@ import {
   View,
   Image,
   Linking,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 } from 'react-native'
+
+const { width } = Dimensions.get('window')
 import SimpleMarkdown from 'simple-markdown'
 import screenID from '../../src/constants/screenID'
 import styles from './styles'
@@ -168,7 +171,7 @@ class Markdown extends Component {
 
     if (node.props) {
       return (
-        <View key={key}>
+        <View style={{}} key={key}>
           {/* style={style} */}
           {this.renderNodes(node.props.children, key, extras)}
         </View>
@@ -184,24 +187,23 @@ class Markdown extends Component {
     let style = extras && extras.style
       ? [styles.text].concat(extras.style)
       : styles.text
-    console.log(node)
-    console.log(key)
-    console.log(extras)
 
     if (node.props) {
       let content = node.props.children[0]
       let type = node.props.type
 
       if ((type = '"<a class="intercom-launcher">')) {
+        let children = this.renderNodes(node.props.children, key, extras)
+
         return (
           <TouchableOpacity
+            style={[styles.linkWrapper]}
+            key={'linkWrapper_' + key}
             onPress={() => {
               Intercom.displayMessageComposer()
             }}
           >
-            <EliceText textStyles={{ fontWeight: 'bold', color: '#524fa1' }}>
-              {content}
-            </EliceText>
+            {children}
           </TouchableOpacity>
         )
       } else {
@@ -236,7 +238,7 @@ class Markdown extends Component {
     }
     return (
       <TouchableOpacity
-        style={styles.linkWrapper}
+        style={[styles.linkWrapper]}
         key={'linkWrapper_' + key}
         onPress={() => {
           if (this.props.navigator) {
@@ -255,7 +257,56 @@ class Markdown extends Component {
       : { blockQuote: true }
     return this.renderBlock(node, key, extras)
   }
+  renderFence (node, key, extras) {
+    const { styles } = this.state
+    let style = [styles.blockItem]
+    let isBlockQuote
+    if (extras && extras.blockQuote) {
+      isBlockQuote = true
 
+      /* Ensure that blockQuote style is applied only once, and not for
+             * all nested components as well (unless there is a nested blockQuote)
+             */
+      delete extras.blockQuote
+    }
+    const nodes = this.renderNodes(node.props.children, key, extras)
+    console.log('node', node)
+    console.log('nodes', nodes)
+    console.log(isBlockQuote, node.props.children[0].props.children[0])
+    // if (isBlockQuote) {
+    //   style.push(styles.fenceQuote)
+    //   return (
+    //     <View style={{ flexDirection: 'column', width }}>
+    //       <View
+    //         key={'blockQuote_' + key}
+    //         style={[styles.fence, { flexDirection: 'column' }]}
+    //       >
+    //         <Text style={{ color: '#eeeeee' }}>
+    //           {node.props.children[0].props.children[0]}
+    //         </Text>
+    //       </View>
+    //     </View>
+    //   )
+    // } else {
+    return (
+      <View
+        style={{
+          flex: 1,
+          overflow: 'hidden'
+        }}
+      >
+        <View
+          key={'block_' + key}
+          style={[styles.fence, { overflow: 'hidden' }]}
+        >
+          <Text style={{ color: '#eeeeee' }}>
+            {node.props.children[0].props.children[0]}
+          </Text>
+        </View>
+      </View>
+    )
+    // }
+  }
   renderBlock (node, key, extras) {
     const { styles } = this.state
 
@@ -276,14 +327,14 @@ class Markdown extends Component {
       return (
         <View
           key={'blockQuote_' + key}
-          style={[styles.block, styles.blockQuote]}
+          style={[styles.block, styles.blockQuote, {}]}
         >
           <Text>{nodes}</Text>
         </View>
       )
     } else {
       return (
-        <View key={'block_' + key} style={styles.block}>
+        <View key={'block_' + key} style={[styles.block, {}]}>
           {nodes}
         </View>
       )
@@ -322,6 +373,14 @@ class Markdown extends Component {
           key,
           Utils.concatStyles(extras, styles.blockItem)
         )
+
+      case 'fence':
+        return this.renderFence(
+          node,
+          key,
+          Utils.concatStyles(extras, styles.fence)
+        )
+
       case 'hr':
         return this.renderLine(node, key)
       case 'div':
@@ -354,8 +413,10 @@ class Markdown extends Component {
         return this.renderText(node, key, Utils.concatStyles(extras, styles.u))
       case 'blockquote':
         return this.renderBlockQuote(node, key)
+
       case undefined:
         return this.renderText(node, key, extras)
+
       default:
         if (this.props.debug) {
           console.log('Node type ' + node.type + ' is not supported')
