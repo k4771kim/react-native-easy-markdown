@@ -270,9 +270,6 @@ class Markdown extends Component {
       delete extras.blockQuote
     }
     const nodes = this.renderNodes(node.props.children, key, extras)
-    console.log('node', node)
-    console.log('nodes', nodes)
-    console.log(isBlockQuote, node.props.children[0].props.children[0])
     // if (isBlockQuote) {
     //   style.push(styles.fenceQuote)
     //   return (
@@ -291,13 +288,12 @@ class Markdown extends Component {
     return (
       <View
         style={{
-          flex: 1,
-          overflow: 'hidden'
+          width: '100%'
         }}
       >
         <View
           key={'block_' + key}
-          style={[styles.fence, { overflow: 'hidden' }]}
+          style={[styles.fence, { overflow: 'hidden', width: '100%' }]}
         >
           <Text style={{ color: '#eeeeee' }}>
             {node.props.children[0].props.children[0]}
