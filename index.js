@@ -18,6 +18,7 @@ import Utils from './Utils'
 import EliceText from '../../src/components/blocks/eliceComponent/eliceText'
 
 import Intercom from 'react-native-intercom'
+import { ScrollView } from 'react-native-gesture-handler'
 class Markdown extends Component {
   static propTypes = {
     debug: PropTypes.bool,
@@ -126,6 +127,7 @@ class Markdown extends Component {
 
     return (
       <View key={'list_' + key} style={styles.list}>
+
         {this.renderNodes(node.props.children, key, { ordered })}
       </View>
     )
@@ -151,7 +153,11 @@ class Markdown extends Component {
     let children = this.renderNodes(node.props.children, key, extras)
 
     return (
-      <View style={styles.listItem} key={'listItem_' + key}>
+      <View
+        style={[styles.listItem, { flexDirection: 'row' }]}
+        key={'listItem_' + key}
+      >
+
         {this.props.renderListBullet
           ? this.props.renderListBullet(extras.ordered, index)
           : this.renderListBullet(extras.ordered, index)}
@@ -178,6 +184,11 @@ class Markdown extends Component {
       )
     } else {
       return <Text key={key} style={style}>{node}</Text>
+      // if (typeof node === 'string') {
+      //   return <Text key={key} style={style}>{node}</Text>
+      // } else {
+      //   return <View key={key} style={style}>{node}</View>
+      // }
     }
   }
 
@@ -293,11 +304,19 @@ class Markdown extends Component {
       >
         <View
           key={'block_' + key}
-          style={[styles.fence, { overflow: 'hidden', width: '100%' }]}
+          style={[
+            styles.fence,
+            {
+              overflow: 'hidden',
+              backgroundColor: '#444444',
+              width: '100%',
+              padding: 30
+            }
+          ]}
         >
-          <Text style={{ color: '#eeeeee' }}>
-            {node.props.children[0].props.children[0]}
-          </Text>
+
+          {this.renderNodes(node.props.children, key, extras)}
+
         </View>
       </View>
     )
@@ -325,7 +344,24 @@ class Markdown extends Component {
           key={'blockQuote_' + key}
           style={[styles.block, styles.blockQuote, {}]}
         >
-          <Text>{nodes}</Text>
+          {typeof nodes === 'string'
+            ? <Text
+              style={{
+                color: '#dddddd'
+              }}
+              >
+              {nodes}
+            </Text>
+            : <View
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                alignSelf: 'center'
+              }}
+              >
+              {nodes}
+            </View>}
+
         </View>
       )
     } else {
@@ -336,7 +372,72 @@ class Markdown extends Component {
       )
     }
   }
+  renderTable (node, key) {
+    return (
+      <ScrollView horizontal style={{ marginBottom: 32, flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          {this.renderNodes(node.props.children, key)}
+        </View>
+      </ScrollView>
+    )
+  }
+  renderTHead (node, key) {
+    return (
+      <View style={{ flex: 1, borderBottomWidth: 1, borderColor: '#DDDDDD' }}>
 
+        {this.renderNodes(node.props.children, key)}
+
+      </View>
+    )
+  }
+  renderTBody (node, key, index) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#FBFBFB'
+        }}
+      >
+
+        {this.renderNodes(node.props.children, key)}
+
+      </View>
+    )
+  }
+
+  renderTH (node, key, extras) {
+    return (
+      <View style={{ flex: 1 }}>
+        {this.renderNodes(node.props.children, key, extras)}
+      </View>
+    )
+  }
+  renderTR (node, key, extras, index) {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          borderBottomWidth: 1,
+          flex: 1,
+          borderColor: '#DDDDDD',
+          backgroundColor: index % 2 === 0 ? '#FBFBFB' : 'white'
+        }}
+      >
+        {this.renderNodes(node.props.children, key, extras)}
+      </View>
+    )
+  }
+  renderTD (node, key, extras) {
+    return (
+      <View
+        style={{
+          flex: 1
+        }}
+      >
+        {this.renderNodes(node.props.children, key, extras)}
+      </View>
+    )
+  }
   renderNode (node, key, index, extras) {
     if (node == null || node == 'null' || node == 'undefined' || node == '') {
       return null
@@ -346,17 +447,41 @@ class Markdown extends Component {
 
     switch (node.type) {
       case 'h1':
-        return this.renderText(node, key, Utils.concatStyles(extras, styles.h1))
+        return (
+          <View style={{ width: '100%' }}>
+            {this.renderText(node, key, Utils.concatStyles(extras, styles.h1))}
+          </View>
+        )
       case 'h2':
-        return this.renderText(node, key, Utils.concatStyles(extras, styles.h2))
+        return (
+          <View style={{ width: '100%' }}>
+            {this.renderText(node, key, Utils.concatStyles(extras, styles.h2))}
+          </View>
+        )
       case 'h3':
-        return this.renderText(node, key, Utils.concatStyles(extras, styles.h3))
+        return (
+          <View style={{ width: '100%' }}>
+            {this.renderText(node, key, Utils.concatStyles(extras, styles.h3))}
+          </View>
+        )
       case 'h4':
-        return this.renderText(node, key, Utils.concatStyles(extras, styles.h4))
+        return (
+          <View style={{ width: '100%' }}>
+            {this.renderText(node, key, Utils.concatStyles(extras, styles.h4))}
+          </View>
+        )
       case 'h5':
-        return this.renderText(node, key, Utils.concatStyles(extras, styles.h5))
+        return (
+          <View style={{ width: '100%' }}>
+            {this.renderText(node, key, Utils.concatStyles(extras, styles.h5))}
+          </View>
+        )
       case 'h6':
-        return this.renderText(node, key, Utils.concatStyles(extras, styles.h6))
+        return (
+          <View style={{ width: '100%' }}>
+            {this.renderText(node, key, Utils.concatStyles(extras, styles.h6))}
+          </View>
+        )
       case 'htmlTagLink':
         return this.renderHtmlTagLink(
           node,
@@ -409,6 +534,34 @@ class Markdown extends Component {
         return this.renderText(node, key, Utils.concatStyles(extras, styles.u))
       case 'blockquote':
         return this.renderBlockQuote(node, key)
+      case 'table':
+        return this.renderTable(node, key)
+      case 'thead':
+        return this.renderTHead(node, key)
+      case 'tbody':
+        return this.renderTBody(node, key, index)
+      case 'th':
+        return this.renderTH(
+          node,
+          key,
+          Utils.concatStyles(extras, styles.th),
+          index
+        )
+      case 'tr':
+        return this.renderTR(
+          node,
+          key,
+          Utils.concatStyles(extras, styles.tr),
+          index
+        )
+
+      case 'td':
+        return this.renderTD(
+          node,
+          key,
+          Utils.concatStyles(extras, styles.td),
+          index
+        )
 
       case undefined:
         return this.renderText(node, key, extras)
