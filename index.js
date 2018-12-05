@@ -279,8 +279,8 @@ class Markdown extends Component {
              * all nested components as well (unless there is a nested blockQuote)
              */
       delete extras.blockQuote
-    }
-    const nodes = this.renderNodes(node.props.children, key, extras)
+    }    
+    const nodes =  this.renderNodes(node.props.children, key, extras)
     // if (isBlockQuote) {
     //   style.push(styles.fenceQuote)
     //   return (
@@ -315,7 +315,7 @@ class Markdown extends Component {
           ]}
         >
 
-          {this.renderNodes(node.props.children, key, extras)}
+          {nodes}
 
         </View>
       </View>
