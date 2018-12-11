@@ -16,7 +16,8 @@ import screenID from '../../src/constants/screenID'
 import styles from './styles'
 import Utils from './Utils'
 import EliceText from '../../src/components/blocks/eliceComponent/eliceText'
-
+import {push} from '../../src/libs/navigatorUtils'
+import {ScreenID} from '../../src/constants'
 import Intercom from 'react-native-intercom'
 import { ScrollView } from 'react-native-gesture-handler'
 class Markdown extends Component {
@@ -222,16 +223,6 @@ class Markdown extends Component {
       }
     }
   }
-  // if (node.props) {
-  //   return (
-  //     <View key={key}>
-  //       {/* style={style} */}
-  //       {this.renderNodes(node.props.children, key, extras)}
-  //     </View>
-  //   )
-  // } else {
-  //   return <Text key={key} style={style}>{node}</Text>
-  // }
 
   renderLink (node, key) {
     const { styles } = this.state
@@ -241,20 +232,12 @@ class Markdown extends Component {
     if (this.props.renderLink) {
       return this.props.renderLink(node.props.href, node.props.title, children)
     }
-    const showWebviewPage = (url, title) => {
-      this.props.navigator.push({
-        screen: screenID.SCREEN_WEBVIEW_PAGE,
-        passProps: { source: { uri: url }, title }
-      })
-    }
     return (
       <TouchableOpacity
         style={[styles.linkWrapper]}
         key={'linkWrapper_' + key}
         onPress={() => {
-          if (this.props.navigator) {
-            showWebviewPage(node.props.href, 'Elice')
-          }
+          this.props.handleLink(node.props.href, 'Elice')
         }}
       >
         {children}
@@ -279,7 +262,12 @@ class Markdown extends Component {
              * all nested components as well (unless there is a nested blockQuote)
              */
       delete extras.blockQuote
-    }    
+    }
+
+    console.log(node)
+
+
+    
     const nodes =  this.renderNodes(node.props.children, key, extras)
     // if (isBlockQuote) {
     //   style.push(styles.fenceQuote)
